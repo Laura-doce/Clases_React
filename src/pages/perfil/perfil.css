@@ -1,0 +1,16 @@
+.reg {
+  font-size: 2em;
+}
+
+.formu {
+  background-color: rgb(87, 87, 87);
+  color: #ffffff;
+  width: 100%;
+  height: auto;
+  border-radius: 5%;
+  padding: 3px 30px;
+}
+
+.item {
+  margin: 5%;
+}
