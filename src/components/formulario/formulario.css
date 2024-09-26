@@ -52,7 +52,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 40px;
+  padding: 0 150px;
   height: 100%;
 }
 
@@ -168,4 +168,8 @@
 
 .loj {
   width: 50%;
+}
+
+.recaptcha {
+  margin: 4%;
 }

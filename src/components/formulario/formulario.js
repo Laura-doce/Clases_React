@@ -1,11 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import LogoR from "../../pages/img/logo_R.png";
 import "./formulario.css";
+import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from "wouter";
 
 export default function Formulario() {
   const [tipoIdentificacion, settipoIdentificacion] = useState("");
   const [numeroIdentificacion, setnumeroIdentificacion] = useState("");
   const [fechaNacimiento, setfechaNacimiento] = useState("");
+  const captcha = useRef(null);
+  const [captchaValido, setCapchaValido] = useState(null);
+  const [usuarioValido, setUsuarioValido] = useState(false);
+
+  const onChange = () => {
+    if (captcha.current.getValue()) {
+      console.log("No es bot");
+      setCapchaValido(true);
+      handSubmit();
+    }
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (captcha.current.getValue()) {
+      console.log("No es bot");
+      setUsuarioValido(true);
+      setCapchaValido(true);
+    } else {
+      console.log("Complete el captcha");
+      setUsuarioValido(false);
+      setCapchaValido(false);
+    }
+  };
 
   const handSubmit = async () => {
     const requestOptions = {
@@ -28,7 +54,7 @@ export default function Formulario() {
   return (
     <div className="container" id="container">
       <div className="form-container sign-in">
-        <form novalidate>
+        <form onSubmit={submit}>
           <h1 className="tit">Inicio Sesion</h1>
           <label className="text">Tipo de documento</label>
           <select
@@ -72,7 +98,25 @@ export default function Formulario() {
             placeholder="Ingrese su fecha de nacimiento"
             required
           />
-          <button>Incio sesion</button>
+
+          <div className="recaptcha">
+            <ReCAPTCHA
+              ref={captcha}
+              sitekey="6LfeCk8qAAAAAFCFfe6OLStCWdtv6qsaZ6zwy71E"
+              onChange={onChange}
+            />
+          </div>
+          {captchaValido === false && (
+            <div
+              class="alert alert-danger d-flex align-items-center"
+              role="alert"
+            >
+              <div>Por favor acepte el Captcha</div>
+            </div>
+          )}
+          <Link to="/ConsultaLab" className="btn btn-dark">
+            Incio sesion
+          </Link>
         </form>
       </div>
       <div className="toggle-container">
